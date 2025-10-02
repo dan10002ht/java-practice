@@ -23,21 +23,21 @@
 // 1 <= nums.length <= 105
 // 1 <= nums[i] <= 104
 
-
-public class Solution {
+public class MinimumSizeSubArraySum {
     public int minimumSizeSubArraySum(int target, int[] nums) {
-        int minimumSize = nums.length;
+        int minimumSize = Integer.MAX_VALUE;
         int left = 0;
-        for (int i = left; right < nums.length; i++) {
-            int sum = nums[i];
-            int size = 1;
-            if(sum >= target) {
-                minimumSize = Math.min(minimumSize, size);
-                continue;
-            };
-            sum+=nums[i];
-            size++;
+        int sum = 0;
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];
+
+            // Khi sum >= target, ta cố gắng thu nhỏ window từ bên trái
+            while (sum >= target) {
+                minimumSize = Math.min(minimumSize, right - left + 1);
+                sum -= nums[left];
+                left++;
+            }
         }
-        return minimumSize;
+        return minimumSize == Integer.MAX_VALUE ? 0 : minimumSize;
     }
 }
